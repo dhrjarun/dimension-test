@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["ESNext"],
+
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "baseUrl": ".",
+
+    "outDir": "dist"
+  },
+  "exclude": ["**/node_modules", "**/dist"]
+}

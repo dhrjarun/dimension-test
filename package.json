@@ -1,0 +1,27 @@
+{
+  "name": "dimension-test-project",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Dhiraj Arun <dhrjarun@gmail.com>",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format:check": "prettier --check web --ext .ts,.tsx,.js,.json",
+    "format:write": "prettier --write web --ext .ts,.tsx,.js,.json"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-arun": "^1.0.2",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.8.4",
+    "typescript": "^4.8.3"
+  }
+}

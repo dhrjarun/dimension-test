@@ -1,0 +1,13 @@
+*.yml
+node_modules
+packages/**/dist
+
+# node
+node_modules/
+
+# next.js
+web/.next/
+web/out/
+
+# build
+dist/
