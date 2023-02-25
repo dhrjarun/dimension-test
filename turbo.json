@@ -8,7 +8,12 @@
     "//#format:check": {},
     "//#format:write": {},
     "lint": {},
-    "lint-fix": {},
-    "type-check": {}
+    "lint:fix": {},
+    "type-check": {},
+    "build": { "dependsOn": ["^build"] },
+    "@dimension/web#tailwind:build": {},
+    "@dimension/web#build": {
+      "dependsOn": ["@dimension/web#tailwind:build"]
+    }
   }
 }

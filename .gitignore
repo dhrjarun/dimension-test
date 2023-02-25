@@ -40,3 +40,6 @@ firebaseServiceAccountKey.json
 web/test-results/
 web/playwright-report/
 web/playwright/.cache/
+
+# tailwindcss
+web/src/styles/tailwind-output.css

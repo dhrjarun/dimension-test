@@ -3,17 +3,19 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -n tailwind,next 'pnpm run tailwind:watch' 'next dev'",
     "start": "next start",
     "build": "next build",
     "lint": "eslint --ext \".js,.ts,.tsx\" --report-unused-disable-directives --report-unused-disable-directives src",
-    "lint-fix": "pnpm lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "type-check": "tsc --noEmit",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test": "run-s test:*",
-    "test-dev": "start-server-and-test 'next dev' http://127.0.0.1:3000 test",
-    "test-start": "start-server-and-test start http://127.0.0.1:3000 test"
+    "storybook": "concurrently -n tailwind,storybook -c cyan,magentaBright 'pnpm run tailwind:watch' 'start-storybook -p 6006'",
+    "storybook:build": "build-storybook",
+    "tailwind:build": "npx tailwindcss -i ./src/styles/tailwind-input.css -o ./src/styles/tailwind-output.css",
+    "tailwind:watch": "npx tailwindcss -i ./src/styles/tailwind-input.css -o ./src/styles/tailwind-output.css --watch"
   },
   "dependencies": {
     "@dimension/api": "workspace:*",
@@ -30,11 +32,18 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.0",
     "@next/eslint-plugin-next": "^13.1.6",
     "@playwright/test": "^1.30.0",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
     "@types/node": "^18.7.20",
     "@types/react": "^18.0.9",
     "autoprefixer": "^10.4.13",
+    "babel-loader": "^8.3.0",
     "eslint-config-next": "^13.1.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.21",

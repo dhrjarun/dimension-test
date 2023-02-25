@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint src",
-    "lint-fix": "pnpm lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "type-check": "tsc --noEmit",
     "build": "tsup  --dts",
     "dev": "tsup --dts --watch",
