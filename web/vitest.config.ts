@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       '~/': fileURLToPath(new URL('./src/', import.meta.url)),
     },
+    setupFiles: './test-setup.js',
     environment: 'jsdom',
   },
 });

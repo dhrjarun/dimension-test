@@ -1,9 +1,9 @@
 import React from 'react';
 import type { AppType } from 'next/app';
-import { trpc } from '../utils/api';
-import '../styles/globals.css';
+import { trpc } from '~/utils/api';
+import '~/styles/globals.css';
 
-const App: AppType = function ({ Component, pageProps }) {
+const App = function ({ Component, pageProps }) {
   return <Component {...pageProps} />;
 } as AppType;
 

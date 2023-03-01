@@ -1,1 +1,25 @@
+@font-face {
+  font-family: 'GT Walsheim';
+  src: url('./fonts/GtWalsheimLight.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'GT Walsheim';
+  src: url('./fonts/GtWalsheimRegular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'GT Walsheim';
+  src: url('./fonts/GtWalsheimMedium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'GT Walsheim';
+  src: url('./fonts/GtWalsheimBold.ttf') format('truetype');
+  font-weight: 700;
+}
+
 @import './tailwind-output.css';

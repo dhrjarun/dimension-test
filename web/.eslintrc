@@ -3,9 +3,16 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["import"],
+  "plugins": ["import", "react"],
   "rules": {
     "import/no-extraneous-dependencies": "off", // not for monorepo
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+
+    // personal preferences
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "react/button-has-type": "off",
+    "import/extensions": "off",
+    "react/no-array-index-key": "off"
   }
 }
