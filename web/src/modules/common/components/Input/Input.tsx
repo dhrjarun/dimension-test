@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
+export interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
 }
