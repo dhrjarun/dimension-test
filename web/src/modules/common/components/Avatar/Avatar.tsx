@@ -19,16 +19,16 @@ export interface AvatarProps extends React.ComponentPropsWithoutRef<'div'> {
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const { src, className, alt, imageProps, fallback, ...rest } = props;
 
-  const ctx = useAvatarGroupContext();
-  const groupStyles = 'border-2 border-white';
+  const { spacing, withinGroup } = useAvatarGroupContext();
+  const negativeGroupStyle = 'border-2 border-white';
 
   return (
     <RadixAvatar.Root
       ref={ref}
-      style={ctx.withinGroup ? { marginLeft: `-${ctx.spacing}px` } : {}}
+      style={withinGroup ? { marginLeft: `${spacing}px` } : {}}
       className={clsx(
         'overflow-hidden block select-none bg-transparent p-0 w-[30px] min-w-[30px] h-[30px] rounded-full',
-        ctx.withinGroup ? groupStyles : '',
+        withinGroup && typeof spacing === 'number' && spacing < 0 ? negativeGroupStyle : '',
         className
       )}
       {...rest}

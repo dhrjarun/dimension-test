@@ -15,7 +15,7 @@ export interface AvatarGroupProps extends React.ComponentPropsWithoutRef<'div'> 
 }
 
 export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>((props, ref) => {
-  const { children, spacing = 12, max, className, ...rest } = props;
+  const { children, spacing = -12, max, className, ...rest } = props;
 
   const totalAvatars = React.Children.count(children);
 

@@ -21,7 +21,6 @@ export function WithinGroups() {
       <Avatar src="https://picsum.photos/id/582/200" />
       <Avatar src="https://picsum.photos/id/593/200" />
       <Avatar src="https://picsum.photos/id/237/200" />
-      <Avatar fallback="3+" />
     </AvatarGroup>
   );
 }
