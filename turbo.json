@@ -3,7 +3,8 @@
   "pipeline": {
     "dev": {
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "env": ["DATABASE_URL", "NEXTAUTH_URL", "NEXTAUTH_SECRET"]
     },
     "//#format:check": {},
     "//#format:write": {},
@@ -14,6 +15,9 @@
     "@dimension/web#tailwind:build": {},
     "@dimension/web#build": {
       "dependsOn": ["@dimension/web#tailwind:build"]
+    },
+    "clean": {
+      "cache": false
     }
   }
 }

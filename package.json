@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format:check": "prettier --check web --ext .ts,.tsx,.js,.json",
-    "format:write": "prettier --write web --ext .ts,.tsx,.js,.json"
+    "format:write": "prettier --write web --ext .ts,.tsx,.js,.json",
+    "clean": "rm -rf .turbo node_modules"
   },
   "keywords": [],
   "license": "ISC",

@@ -1,0 +1,27 @@
+{
+  "name": "@dimension/db",
+  "version": "0.0.1",
+  "author": "Dhiraj Arun <dhrjarun@gmail.com>",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "lint": "eslint index.ts",
+    "lint:fix": "pnpm lint --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .turbo node_modules",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "dev": "prisma studio --port 5556"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.10.1",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.11.0",
+    "typescript": "^4.8.3"
+  }
+}

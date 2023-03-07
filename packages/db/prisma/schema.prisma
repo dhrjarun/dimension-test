@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
+}
+
+model User {
+  id        Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  username  String   @unique
+  name      String?
+  avatarUrl String?
+  comments  Comment[]
+  issues    IssueParticipants[]
+  ownIssues Issue[]
+}
+
+model Project {
+  id        Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  imageUrl  String?
+  stages    Stage[]
+  issues    Issue[]
+  labels    Label[]
+}
+
+model Stage {
+  id        Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  title     String
+  imageUrl  String?
+  info      String?
+  color     String?
+  rank      String @unique
+  issues    Issue[]
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+}
+
+model Issue {
+  id            Int @id @default(autoincrement())
+  number        Int @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+  author        User @relation(fields: [authorId], references: [id])
+  authorId      Int
+  title         String
+  description   String?
+  labels        LabelOnIssue[]
+  comments      Comment[]
+  project       Project @relation(fields: [projectId], references: [id])
+  projectId     Int
+  participants  IssueParticipants[]
+  tasks         Task[]
+  stage         Stage @relation(fields: [stageId], references: [id])
+  stageId       Int
+  thumbnail     String?
+  thumbnailType ThumbnailType?
+  rank          String @unique
+}
+
+model IssueParticipants {
+  id         Int @id @default(autoincrement())
+  assignedAt DateTime @default(now())
+  issue      Issue @relation(fields: [issueId], references: [id])
+  issueId    Int
+  user       User @relation(fields: [userId], references: [id])
+  userId     Int
+  role       IssueParticipantsRole?
+}
+
+enum IssueParticipantsRole {
+  CREATOR
+}
+
+model Task {
+  id        Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  title     String
+  issue     Issue @relation(fields: [issueId], references: [id])
+  issueId   Int
+  isDone    Boolean @default(false)
+}
+
+enum ThumbnailType {
+  TEXT
+  IMAGE
+}
+
+model Label {
+  id        Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  color     String?
+  info      String?
+  issues    LabelOnIssue[]
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  @@unique([projectId, name])
+}
+
+model LabelOnIssue {
+  id         Int @id @default(autoincrement())
+  assignedAt DateTime @default(now())
+  assignedBy Int
+  issue      Issue @relation(fields: [issueId], references: [id])
+  issueId    Int
+  label      Label @relation(fields: [labelId], references: [id])
+  labelId    Int
+}
+
+model Comment {
+  id        Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  author    User @relation(fields: [authorId], references: [id])
+  authorId  Int
+  body      String
+  issue     Issue @relation(fields: [issueId], references: [id])
+  issueId   Int
+}
+
+
