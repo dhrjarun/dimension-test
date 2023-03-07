@@ -30,7 +30,7 @@ importers:
       prettier: 2.8.4
       typescript: 4.9.5
 
-  api:
+  packages/api:
     specifiers:
       '@dimension/auth': workspace:*
       '@dimension/db': workspace:*
@@ -44,8 +44,8 @@ importers:
       vitest: ^0.23.4
       zod: ^3.0.0
     dependencies:
-      '@dimension/auth': link:../packages/auth
-      '@dimension/db': link:../packages/db
+      '@dimension/auth': link:../auth
+      '@dimension/db': link:../db
       '@trpc/client': 10.12.0_@trpc+server@10.12.0
       '@trpc/server': 10.12.0
       lexorank: 1.0.5
@@ -135,7 +135,7 @@ importers:
       vitest: ^0.23.4
       zod: ^3.0.0
     dependencies:
-      '@dimension/api': link:../api
+      '@dimension/api': link:../packages/api
       '@dimension/auth': link:../packages/auth
       '@radix-ui/react-avatar': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-separator': 1.0.1_biqbaboplfbrettd7655fr4n2y
@@ -10270,7 +10270,7 @@ packages:
       '@panva/hkdf': 1.0.4
       cookie: 0.5.0
       jose: 4.13.1
-      next: 13.2.3_6m24vuloj5ihw4zc5lbsktc4fu
+      next: 13.2.3_biqbaboplfbrettd7655fr4n2y
       oauth: 0.9.15
       openid-client: 5.4.0
       preact: 10.13.0
