@@ -1,0 +1,27 @@
+{
+  "name": "@dimension/auth",
+  "version": "0.0.1",
+  "author": "Dhiraj Arun <dhrjarun@gmail.com>",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint index.ts",
+    "lint:fix": "pnpm lint --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .turbo node_modules"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "zod": "^3.0.0",
+    "@dimension/db": "workspace:*",
+    "next": "^13.2.3",
+    "next-auth": "^4.20.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  }
+}

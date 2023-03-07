@@ -13,14 +13,18 @@
     "type-check": "tsc --noEmit",
     "build": "tsup  --dts",
     "dev": "tsup --dts --watch",
-    "test": "vitest run"
+    "test": "vitest run",
+    "clean": "rm -rf .turbo node_modules",
+    "prisma:generate": "prisma generate"
   },
   "keywords": [],
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^4.10.1",
+    "@dimension/auth": "workspace:*",
+    "@dimension/db": "workspace:*",
     "@trpc/client": "^10.12.0",
     "@trpc/server": "^10.12.0",
+    "lexorank": "^1.0.5",
     "superjson": "^1.7.4",
     "zod": "^3.0.0"
   },

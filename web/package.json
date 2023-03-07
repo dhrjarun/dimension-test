@@ -15,10 +15,12 @@
     "storybook": "concurrently -n tailwind,storybook -c cyan,magentaBright 'pnpm run tailwind:watch' 'start-storybook -p 6006'",
     "storybook:build": "build-storybook",
     "tailwind:build": "npx tailwindcss -i ./src/styles/tailwind-input.css -o ./src/styles/tailwind-output.css",
-    "tailwind:watch": "npx tailwindcss -i ./src/styles/tailwind-input.css -o ./src/styles/tailwind-output.css --watch"
+    "tailwind:watch": "npx tailwindcss -i ./src/styles/tailwind-input.css -o ./src/styles/tailwind-output.css --watch",
+    "clean": "rm -rf .turbo node_modules"
   },
   "dependencies": {
     "@dimension/api": "workspace:*",
+    "@dimension/auth": "workspace:*",
     "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-separator": "^1.0.1",
     "@radix-ui/react-switch": "^1.0.1",
@@ -29,7 +31,9 @@
     "@trpc/react-query": "^10.12.0",
     "@trpc/server": "^10.12.0",
     "clsx": "^1.1.1",
-    "next": "^13.0.0",
+    "experimental-prisma-webpack-plugin": "^0.0.5",
+    "next": "^13.2.0",
+    "next-auth": "^4.20.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.7.4",
