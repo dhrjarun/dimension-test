@@ -16,5 +16,5 @@
     "jsx": "preserve",
     "noUncheckedIndexedAccess": true
   },
-  "include": ["index.ts"]
+  "include": ["src", "data"]
 }
