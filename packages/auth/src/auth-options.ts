@@ -1,23 +1,20 @@
 /* eslint-disable no-param-reassign */
-import { type DefaultSession, type NextAuthOptions } from 'next-auth';
+import { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@dimension/db';
 
-// TODO: fix typescript issue
-interface AuthUser {
-  id?: number;
-  name?: string | null;
-  email?: string;
-  username?: string;
-  avatarUrl?: string | null;
-}
-
 declare module 'next-auth' {
-  interface User extends AuthUser {}
+  interface User {
+    id: number;
+    email: string;
+    username: string;
+    name?: string | null;
+    avatarUrl?: string | null;
+  }
 
   interface Session {
     user?: User;
-    expires: DefaultSession['expires'];
+    expires: string;
   }
 }
 
@@ -25,9 +22,9 @@ declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
     id: number;
+    email: string;
+    username: string;
     name?: string | null;
-    email?: string;
-    username?: string;
     avatarUrl?: string | null;
   }
 }
@@ -46,8 +43,8 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findUnique({ where: { username: credentials.username } });
 
         if (user) {
-          const { id, name, email, username, avatarUrl } = user;
-          return { id, name, email, username, avatarUrl };
+          const { id, email, username, name, avatarUrl } = user;
+          return { id, email, username, name, avatarUrl };
         }
         return null;
       },
@@ -56,7 +53,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt({ token, user }) {
       if (user) {
-        token.id = user.id as unknown as number;
+        token.id = user?.id as number;
         token.username = user?.username;
         token.avatarUrl = user?.avatarUrl;
       }
