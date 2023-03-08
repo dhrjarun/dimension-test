@@ -6,7 +6,7 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "lint": "eslint index.ts",
+    "lint": "eslint src data",
     "lint:fix": "pnpm lint --fix",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .turbo node_modules",
