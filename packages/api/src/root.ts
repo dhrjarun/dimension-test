@@ -1,18 +1,20 @@
-import { createTRPCRouter, publicProcedure, protectedProcedure } from './trpc';
+import { createTRPCRouter, publicProcedure } from './trpc';
+import { userRouter } from './modules/user';
+import { projectRouter } from './modules/project';
+import { issueRouter } from './modules/issue';
+import { stageRouter } from './modules/stage';
 
 export const appRouter = createTRPCRouter({
   hello: publicProcedure.query(({ ctx }) => {
     const { session } = ctx;
 
-    console.log('the server session', session);
     if (session?.user) return `Hello user(id: ${session.user.id})`;
     return 'Hello';
   }),
-  helloP: protectedProcedure.query(({ ctx }) => {
-    const { session } = ctx;
-
-    return `Hello user(id: ${session.user.id})`;
-  }),
+  project: projectRouter,
+  stage: stageRouter,
+  user: userRouter,
+  issue: issueRouter,
 });
 
 // export type definition of API
