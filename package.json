@@ -6,16 +6,18 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format:check": "prettier --check web --ext .ts,.tsx,.js,.json",
-    "format:write": "prettier --write web --ext .ts,.tsx,.js,.json",
+    "format:check": "prettier --check web packages --ext .ts,.tsx,.js,.json",
+    "format:write": "prettier --write web packages --ext .ts,.tsx,.js,.json",
     "clean": "rm -rf .turbo node_modules"
   },
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^18.7.20",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.0.0",
     "concurrently": "^7.6.0",
+    "dotenv": "^16.0.3",
     "eslint": "^8.2.0",
     "eslint-config-arun": "^1.0.2",
     "eslint-config-prettier": "^8.6.0",
@@ -24,6 +26,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.8.4",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.3"
   }
 }

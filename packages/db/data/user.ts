@@ -5,10 +5,10 @@ export interface UserData {
   username: string;
   name: string;
   email: string;
-  avatarUrl: string;
+  avatarUrl?: string;
 }
 
-export const users: Tuple<UserData, 6> = [
+export const users: Tuple<UserData, 12> = [
   {
     id: 1,
     username: 'user1',
@@ -50,5 +50,41 @@ export const users: Tuple<UserData, 6> = [
     name: 'User 6',
     email: 'user6@dmail.com',
     avatarUrl: '/images/avatar/user6.png',
+  },
+  {
+    id: 7,
+    username: 'user7',
+    name: 'User 7',
+    email: 'user7@dmail.com',
+  },
+  {
+    id: 8,
+    username: 'user8',
+    name: 'User 8',
+    email: 'user8@dmail.com',
+  },
+  {
+    id: 9,
+    username: 'user9',
+    name: 'User 9',
+    email: 'user9@dmail.com',
+  },
+  {
+    id: 10,
+    username: 'user10',
+    name: 'User 10',
+    email: 'user10@dmail.com',
+  },
+  {
+    id: 11,
+    username: 'user11',
+    name: 'User 11',
+    email: 'user11@dmail.com',
+  },
+  {
+    id: 12,
+    username: 'user12',
+    name: 'User 12',
+    email: 'user12@dmail.com',
   },
 ];

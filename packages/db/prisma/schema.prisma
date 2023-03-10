@@ -27,7 +27,8 @@ model Project {
   id        Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   name      String
-  imageUrl  String?
+  url       String @unique
+  logoUrl   String?
   stages    Stage[]
   issues    Issue[]
   labels    Label[]
@@ -80,6 +81,7 @@ model IssueParticipants {
 
 enum IssueParticipantsRole {
   CREATOR
+  COLLABORATOR
 }
 
 model Task {

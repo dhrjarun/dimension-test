@@ -6,9 +6,14 @@ export async function resetDb() {
     throw new Error("Can't reset db in production");
   }
 
-  await prisma.user.deleteMany();
+  // order of deletion matter
+  await prisma.task.deleteMany();
   await prisma.labelOnIssue.deleteMany();
   await prisma.label.deleteMany();
+  await prisma.issueParticipants.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.issue.deleteMany();
   await prisma.stage.deleteMany();
+  await prisma.user.deleteMany();
   await prisma.project.deleteMany();
 }
