@@ -27,7 +27,8 @@
     "**/*.tsx",
     "./*.js",
     "./src/**/*.js",
-    "tailwind.config.js"
+    "tailwind.config.js",
+    "playwright/playwright-global-setup.js"
   ],
   "exclude": ["node_modules"]
 }

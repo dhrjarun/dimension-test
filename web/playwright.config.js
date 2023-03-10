@@ -1,4 +1,8 @@
+/** @type {import('@playwright/test').Config} */
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:3000';
 console.log(`ℹ️ Using base URL "${baseURL}"`);
@@ -18,6 +22,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   outputDir: './playwright/test-results',
   reporter: process.env.CI ? 'github' : 'list',
+  globalSetup: require.resolve('./playwright/global-setup'),
 
   use: {
     actionTimeout: 0,
