@@ -13,6 +13,15 @@
     "react/require-default-props": "off",
     "react/button-has-type": "off",
     "import/extensions": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+
+    // recoil recommendation
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ]
   }
 }

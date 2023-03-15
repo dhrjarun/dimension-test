@@ -1,4 +1,4 @@
-import { httpBatchLink, loggerLink } from '@trpc/client';
+import { httpBatchLink, loggerLink, createTRPCProxyClient } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import type { AppRouter } from '@dimension/api';
@@ -27,7 +27,21 @@ export const trpc = createTRPCNext<AppRouter>({
       ],
     };
   },
-  ssr: true,
+  ssr: false,
+});
+
+export const trpcClient = createTRPCProxyClient<AppRouter>({
+  transformer: SuperJSON,
+  links: [
+    loggerLink({
+      enabled: (opts) =>
+        process.env.NODE_ENV === 'development' ||
+        (opts.direction === 'down' && opts.result instanceof Error),
+    }),
+    httpBatchLink({
+      url: `${getBaseUrl()}/api/trpc`,
+    }),
+  ],
 });
 
 /**
