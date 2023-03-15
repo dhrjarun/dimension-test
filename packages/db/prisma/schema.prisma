@@ -16,7 +16,7 @@ model User {
   createdAt DateTime @default(now())
   email     String   @unique
   username  String   @unique
-  name      String?
+  name      String
   avatarUrl String?
   comments  Comment[]
   issues    IssueParticipants[]
@@ -38,9 +38,9 @@ model Stage {
   id        Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   title     String
-  imageUrl  String?
+  imageUrl  String
+  color     String
   info      String?
-  color     String?
   rank      String @unique
   issues    Issue[]
   project   Project @relation(fields: [projectId], references: [id])
@@ -102,7 +102,7 @@ model Label {
   id        Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   name      String
-  color     String?
+  color     String
   info      String?
   issues    LabelOnIssue[]
   project   Project @relation(fields: [projectId], references: [id])
