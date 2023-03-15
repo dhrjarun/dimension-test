@@ -1,59 +1,73 @@
 import React from 'react';
 import { IssueCard } from './IsuueCard';
-import { IssueData } from './types';
+import { Issue } from '../../state';
 
 export default {
   title: 'web/project/issueCard',
   component: IssueCard,
 };
 
+const defaultProps = {
+  commentCount: 0,
+  taskCount: 0,
+  taskCompletedCount: 0,
+  description: '',
+  authorId: 1,
+  projectId: 1,
+  rank: '',
+  stageId: 1,
+  updatedAt: new Date(),
+  participants: [],
+  labels: [],
+  thumbnailType: null,
+  thumbnail: null,
+};
+
 export function Default() {
-  const data: IssueData = {
+  const data: Issue = {
+    ...defaultProps,
     id: 1,
-    serialNo: 1,
+    number: 1,
     title: 'UX Adjustments',
-    users: [
-      { name: 'user1', id: 1, avatarImg: 'https://picsum.photos/id/100/200' },
-      { name: 'user2', id: 2, avatarImg: 'https://picsum.photos/id/23/200' },
-      { name: 'user3', id: 3, avatarImg: 'https://picsum.photos/id/64/200' },
-      { name: 'user4', id: 4, avatarImg: 'https://picsum.photos/id/76/200' },
+    participants: [
+      { name: 'user1', id: 1, avatarUrl: 'https://picsum.photos/id/100/200' },
+      { name: 'user2', id: 2, avatarUrl: 'https://picsum.photos/id/23/200' },
+      { name: 'user3', id: 3, avatarUrl: 'https://picsum.photos/id/64/200' },
+      { name: 'user4', id: 4, avatarUrl: 'https://picsum.photos/id/76/200' },
     ],
-    commentCount: 3,
     createdAt: new Date(2023, 0),
     labels: [{ name: 'Research', id: 1, color: 'violet' }],
-    body: {
-      type: 'text',
-      content: 'Make UI/UX revision for the project management decision on Figma.',
-    },
+    thumbnailType: 'TEXT',
+    thumbnail: 'Make UI/UX revision for the project management decision on Figma.',
   };
 
   return <IssueCard data={data} />;
 }
 
-export function WithImage() {
-  const data: IssueData = {
+export function WithImageThumbnail() {
+  const data: Issue = {
+    ...defaultProps,
     id: 2,
-    serialNo: 2,
+    number: 2,
     title: 'Dashboard Design',
-    users: [{ name: 'user1', id: 1, avatarImg: 'https://picsum.photos/200' }],
+    participants: [{ name: 'user1', id: 1, avatarUrl: 'https://picsum.photos/200' }],
     commentCount: 3,
     createdAt: new Date(2023, 10),
     labels: [{ name: 'Research', id: 1, color: 'violet' }],
-    body: {
-      type: 'img',
-      content: 'https://picsum.photos/212/80',
-    },
+    thumbnailType: 'IMAGE',
+    thumbnail: 'https://picsum.photos/212/80',
   };
 
   return <IssueCard data={data} />;
 }
 
-export function WithoutBody() {
-  const data: IssueData = {
+export function WithoutThumbnail() {
+  const data: Issue = {
+    ...defaultProps,
     id: 3,
-    serialNo: 3,
+    number: 3,
     title: 'Brainstorming',
-    users: [{ name: 'user1', id: 1, avatarImg: 'https://picsum.photos/200' }],
+    participants: [{ name: 'user1', id: 1, avatarUrl: 'https://picsum.photos/200' }],
     commentCount: 3,
     createdAt: new Date(2023, 10),
     labels: [{ name: 'Research', id: 1, color: 'violet' }],
@@ -63,21 +77,19 @@ export function WithoutBody() {
 }
 
 export function Done() {
-  const data: IssueData = {
+  const data: Issue = {
+    ...defaultProps,
     id: 3,
-    serialNo: 3,
+    number: 3,
     title: 'Presentation',
-    body: {
-      type: 'text',
-      content: 'Help build a presentation for the project management decision.',
-    },
-    users: [{ name: 'user1', id: 1, avatarImg: 'https://picsum.photos/200' }],
+    thumbnailType: 'TEXT',
+    thumbnail: 'Help build a presentation for the project management decision.',
+    participants: [{ name: 'user1', id: 1, avatarUrl: 'https://picsum.photos/200' }],
     commentCount: 3,
     createdAt: new Date(2023, 10),
     labels: [{ name: 'Research', id: 1, color: 'violet' }],
-    linkCount: 1,
     taskCount: 4,
-    completedTaskCount: 4,
+    taskCompletedCount: 4,
   };
 
   return <IssueCard data={data} isDone />;

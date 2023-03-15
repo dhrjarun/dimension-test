@@ -2,20 +2,19 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { IssueCard } from './IsuueCard';
-import { IssueData } from './types';
+import { Issue } from '../../state';
 
-const defaultData: IssueData = {
+const defaultData = {
   id: 1,
-  serialNo: 1,
+  number: 1,
   title: 'card title',
   createdAt: new Date(2023, 0),
-  body: {
-    type: 'text',
-    content: 'card body',
-  },
+  thumbnailType: 'TEXT',
+  thumbnail: 'card body',
   labels: [],
-  users: [],
-};
+  participants: [],
+} as unknown as Issue;
+
 describe('web/project/IssueCard', () => {
   it('should render calender when it is not `Done`', () => {
     const { queryByText } = render(<IssueCard data={defaultData} />);

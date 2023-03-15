@@ -2,7 +2,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Avatar, AvatarGroup } from '~/modules/common';
-import { IssueData } from './types';
 import { Label } from './Label';
 import { InfoWithIcon } from './InfoWithIcon';
 import { CommentIcon } from './icons/CommentIcon';
@@ -10,9 +9,10 @@ import { TickCircleIcon } from './icons/TickCircleIcon';
 import { LinkIcon } from './icons/LinkIcon';
 import { CalenderIcon } from './icons/CalenderIcon';
 import { GreenTickCircle } from './icons/GreenTickCircle';
+import { Issue } from '../../state';
 
 export interface IssueCardProps extends React.ComponentPropsWithoutRef<'div'> {
-  data: IssueData;
+  data: Issue;
   isDone?: boolean;
 }
 
@@ -20,17 +20,19 @@ export const IssueCard = React.forwardRef<HTMLDivElement, IssueCardProps>((props
   const { data, className, isDone = false, ...rest } = props;
 
   const {
-    serialNo,
+    number,
     title,
     commentCount,
-    linkCount,
     taskCount,
-    completedTaskCount,
+    taskCompletedCount = 0,
     createdAt,
-    users = [],
-    body,
+    participants = [],
+    thumbnail,
+    thumbnailType,
     labels,
   } = data;
+
+  const linkCount = 0;
 
   return (
     <div
@@ -39,19 +41,19 @@ export const IssueCard = React.forwardRef<HTMLDivElement, IssueCardProps>((props
       {...rest}
     >
       <div className="p-3">
-        <p className="text-x">FLYTE-{serialNo}</p>
+        <p className="text-x">FLYTE-{number}</p>
 
         <h3 className="text-gray-700 text-xvi font-bold py-1.5 tracking-wider">{title}</h3>
-        {body && (
-          <div className="mb-3 w-full max-h-[80px]">
-            {body.type === 'img' ? (
+        {thumbnail && (
+          <div className="mb-3 w-full max-h-22 overflow-hidden">
+            {thumbnailType === 'IMAGE' ? (
               <img
-                src={body.content}
-                alt={`${title} body`}
+                src={thumbnail}
+                alt={`${title} thumbnail`}
                 className="object-cover block w-full rounded-lg"
               />
             ) : (
-              <p>{body?.content}</p>
+              <p>{thumbnail}</p>
             )}
           </div>
         )}
@@ -63,8 +65,8 @@ export const IssueCard = React.forwardRef<HTMLDivElement, IssueCardProps>((props
             </Label>
           ))}
           <AvatarGroup max={3}>
-            {users.map((user) => (
-              <Avatar src={user.avatarImg} key={user.id} />
+            {participants.map((user) => (
+              <Avatar src={user.avatarUrl || ''} key={user.id} fallback={user.name.charAt(0)} />
             ))}
           </AvatarGroup>
         </div>
@@ -74,7 +76,7 @@ export const IssueCard = React.forwardRef<HTMLDivElement, IssueCardProps>((props
         <div className="flex items-center gap-2.5">
           <InfoWithIcon info={commentCount} icon={<CommentIcon />} />
           <InfoWithIcon
-            info={taskCount && completedTaskCount ? `${completedTaskCount}/${taskCount}` : ''}
+            info={taskCount && taskCompletedCount ? `${taskCompletedCount}/${taskCount}` : ''}
             icon={<TickCircleIcon />}
           />
           <InfoWithIcon info={linkCount} icon={<LinkIcon />} />
