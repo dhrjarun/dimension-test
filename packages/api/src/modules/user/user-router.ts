@@ -1,4 +1,4 @@
-import { TRPCError } from '@trpc/server';
+import { TRPCError, inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { createTRPCRouter, protectedProcedure } from '../../trpc';
 
 export const userRouter = createTRPCRouter({
@@ -15,3 +15,6 @@ export const userRouter = createTRPCRouter({
     return { id, name, username, email, avatarUrl, createdAt };
   }),
 });
+
+export type UserRouterInputs = inferRouterInputs<typeof userRouter>;
+export type UserRouterOutputs = inferRouterOutputs<typeof userRouter>;

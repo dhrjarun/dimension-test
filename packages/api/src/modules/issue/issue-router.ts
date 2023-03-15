@@ -1,5 +1,5 @@
 import { LexoRank } from 'lexorank';
-import { TRPCError } from '@trpc/server';
+import { TRPCError, inferRouterOutputs, inferRouterInputs } from '@trpc/server';
 import z from 'zod';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../../trpc';
 import { issuesCountDataQuery } from './issue-query';
@@ -29,6 +29,7 @@ export const issueRouter = createTRPCRouter({
       }
 
       const lastIssue = await prisma.issue.findFirst({
+        where: { projectId },
         select: { rank: true, number: true },
         orderBy: { rank: 'desc' },
       });
@@ -107,28 +108,36 @@ export const issueRouter = createTRPCRouter({
       const { prisma } = ctx;
       const { projectId } = input;
 
-      const issues = await prisma.issue.findMany({
+      const rawIssues = await prisma.issue.findMany({
         where: { projectId },
         include: {
-          participants: { select: { id: true, user: { select: { id: true, avatarUrl: true } } } },
+          participants: {
+            select: { id: true, user: { select: { id: true, name: true, avatarUrl: true } } },
+          },
+          labels: {
+            select: { id: true, label: { select: { id: true, name: true, color: true } } },
+          },
         },
         orderBy: { rank: 'asc' },
       });
 
-      const issueIds = issues.map((issue) => issue.id);
+      const issueIds = rawIssues.map((issue) => issue.id);
       const counts = await issuesCountDataQuery({ issueIds });
 
-      const data = issues.map((issue, index) => {
+      const issues = rawIssues.map((issue, index) => {
         const countData = counts[index];
+
         return {
           ...issue,
           commentCount: Number(countData?.commentCount),
           taskCount: Number(countData?.taskCount),
           taskCompletedCount: Number(countData?.taskCompletedCount),
+          labels: issue.labels.map((label) => label.label),
+          participants: issue.participants.map((participant) => participant.user),
         };
       });
 
-      return data;
+      return issues;
     }),
 
   getById: publicProcedure
@@ -167,31 +176,54 @@ export const issueRouter = createTRPCRouter({
       z.object({
         issueId: z.number(),
         newStageId: z.number().optional(),
-        after: z.string().optional(),
-        before: z.string().optional(),
+        after: z.number().optional(), // means put issue after this issue
+        before: z.number().optional(), // means put issue before this issue
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { prisma } = ctx;
       const { issueId, newStageId, after, before } = input;
 
-      // after will be prioritized over before
-      const firstIssueRank = after ?? before;
-
-      let newRank = '';
-
-      if (!after && !before) throw new TRPCError({ code: 'BAD_REQUEST' });
-
+      // check if issue exist
       const issue = await prisma.issue.findUnique({ where: { id: issueId } });
       if (!issue) throw new TRPCError({ code: 'NOT_FOUND' });
 
+      if (newStageId) {
+        // check if newStageId exist and is in the same project
+        const stage = await prisma.stage.findUnique({
+          where: { id: newStageId },
+          select: { id: true, projectId: true, _count: { select: { issues: true } } },
+        });
+        if (!stage) throw new TRPCError({ code: 'BAD_REQUEST' });
+        if (stage.projectId !== issue.projectId) throw new TRPCError({ code: 'BAD_REQUEST' });
+
+        // in case of 0 issue in the newStage
+        // eslint-disable-next-line no-underscore-dangle
+        if (stage._count.issues === 0) {
+          const result = await prisma.issue.update({
+            data: { stageId: newStageId },
+            where: { id: issueId },
+          });
+
+          return result;
+        }
+      }
+
+      // `after` will be prioritized over `before`
+      const firstIssueId = after ?? before;
+      if (!firstIssueId) throw new TRPCError({ code: 'BAD_REQUEST' });
+
+      let newRank = '';
+
       const firstIssue = await prisma.issue.findFirst({
-        where: { rank: firstIssueRank, stageId: newStageId },
+        where: { id: firstIssueId, stageId: newStageId }, // firstIssue should be in the newStage
+        select: { id: true, rank: true },
       });
       if (!firstIssue) throw new TRPCError({ code: 'NOT_FOUND' });
 
       const secondIssue = await prisma.issue.findFirst({
-        where: { stageId: newStageId },
+        where: { projectId: issue.projectId }, // secondIssue should be in the same project
+        select: { id: true, rank: true },
         cursor: { rank: firstIssue.rank },
         orderBy: { rank: after ? 'asc' : 'desc' }, // asc for after and desc for before
         skip: 1,
@@ -202,14 +234,17 @@ export const issueRouter = createTRPCRouter({
           .between(LexoRank.parse(secondIssue.rank))
           .toString();
       } else {
+        // in case of either very-first issue or very-last issue in the project
         const parsed = LexoRank.parse(firstIssue.rank);
         newRank = after ? parsed.genNext().toString() : parsed.genPrev().toString(); // next for after and prev for before
       }
 
-      await prisma.issue.update({
+      const result = await prisma.issue.update({
         data: { rank: newRank, stageId: newStageId },
         where: { id: issueId },
       });
+
+      return result;
     }),
 
   addLabel: protectedProcedure
@@ -228,3 +263,6 @@ export const issueRouter = createTRPCRouter({
       prisma.labelOnIssue.create({ data: { labelId, issueId, assignedBy: session.user.id } });
     }),
 });
+
+export type IssueRouterInput = inferRouterInputs<typeof issueRouter>;
+export type IssueRouterOutput = inferRouterOutputs<typeof issueRouter>;

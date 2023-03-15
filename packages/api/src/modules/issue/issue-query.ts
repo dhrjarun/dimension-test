@@ -1,4 +1,4 @@
-import { Prisma, prisma } from '@dimension/db';
+import { prisma } from '@dimension/db';
 
 export type IssuesCountDataQueryResult = {
   commentCount: BigInt;
@@ -6,14 +6,16 @@ export type IssuesCountDataQueryResult = {
   taskCompletedCount: BigInt;
 }[];
 export function issuesCountDataQuery({ issueIds }: { issueIds: number[] }) {
-  return prisma.$queryRaw<IssuesCountDataQueryResult>`
+  if (issueIds.length === 0) return Promise.resolve([]);
+  const queryString = `
 SELECT
 Issue.id,
 (SELECT COUNT(*) FROM Comment WHERE Comment.issueId = Issue.id) AS commentCount,
 (SELECT COUNT(*) FROM Task WHERE Task.issueId = Issue.id) AS taskCount,
 (SELECT COUNT(*) FROM Task WHERE Task.issueId = Issue.id AND Task.isDone = true) AS taskCompletedCount
 FROM Issue
-WHERE Issue.id IN (${Prisma.join(issueIds)})
+WHERE Issue.id IN (${issueIds.join(', ')})
 ORDER BY Issue.rank ASC;
-`;
+  `;
+  return prisma.$queryRawUnsafe<IssuesCountDataQueryResult>(queryString);
 }

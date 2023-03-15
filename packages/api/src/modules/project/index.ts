@@ -1,1 +1,1 @@
-export { projectRouter } from './project-router';
+export * from './project-router';

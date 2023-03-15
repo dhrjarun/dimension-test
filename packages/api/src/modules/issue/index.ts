@@ -1,1 +1,1 @@
-export { issueRouter } from './issue-router';
+export * from './issue-router';
