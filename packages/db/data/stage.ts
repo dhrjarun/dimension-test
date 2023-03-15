@@ -15,7 +15,7 @@ export const stages: Tuple<StageData, 3> = [
     title: 'TODO',
     rank: '1',
     projectId: 1,
-    imageUrl: '/images/todo.png',
+    imageUrl: '/images/stage/todo.png',
     color: 'black',
   },
   {
@@ -23,7 +23,7 @@ export const stages: Tuple<StageData, 3> = [
     title: 'IN PROGRESS',
     rank: '2',
     projectId: 1,
-    imageUrl: '/images/in-progress.png',
+    imageUrl: '/images/stage/in-progress.png',
     color: 'blue',
   },
   {
@@ -31,7 +31,7 @@ export const stages: Tuple<StageData, 3> = [
     title: 'Done',
     rank: '3',
     projectId: 1,
-    imageUrl: '/images/in-progress.png',
+    imageUrl: '/images/stage/in-progress.png',
     color: 'green',
   },
 ];
