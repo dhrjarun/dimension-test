@@ -5,16 +5,16 @@ import { AddIcon } from './AddIcon';
 import { ThreeDotIcon } from './ThreeDotIcon';
 
 export interface StageHeaderProps extends React.ComponentPropsWithoutRef<'div'> {
-  icon: string;
+  imageUrl: string;
   name: string;
   issueCount: number;
-  color: 'black' | 'blue' | 'green';
+  color: 'black' | 'blue' | 'green' | string;
 }
 
 export const StageHeader = React.forwardRef<HTMLDivElement, StageHeaderProps>((props, ref) => {
-  const { className, name, color, icon, issueCount } = props;
+  const { className, name, color, imageUrl, issueCount } = props;
 
-  const colorVariants = {
+  const colorVariants: Record<string, string> = {
     black: 'border-b-black',
     blue: 'border-b-blue-600',
     green: 'border-b-green-600',
@@ -25,13 +25,13 @@ export const StageHeader = React.forwardRef<HTMLDivElement, StageHeaderProps>((p
       ref={ref}
       className={clsx(
         colorVariants[color] || colorVariants.black,
-        'flex justify-between items-center border-b-2 pb-3',
+        'flex justify-between items-center border-b-2 pb-3 mb-6',
         className
       )}
     >
       <div className="flex items-center text-gray-700">
         <img
-          src={icon}
+          src={imageUrl}
           alt={`${name} stage icon`}
           className="object-fill block mr-2 aspect-square w-[18px]"
         />

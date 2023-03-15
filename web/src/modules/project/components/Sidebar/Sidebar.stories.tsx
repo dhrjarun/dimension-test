@@ -10,8 +10,20 @@ export function Default() {
   return (
     <Sidebar
       projects={[
-        { name: 'Buy Me A Coffe', id: 1, logo: 'images/project/buy-me-a-coffee.png' },
-        { name: 'Dribble', id: 2, logo: 'images/project/dribble.png' },
+        {
+          name: 'Buy Me A Coffe',
+          id: 1,
+          logoUrl: 'images/project/buy-me-a-coffee.png',
+          url: 'https://dimension.dev/project/buy-me-a-coffee',
+          createdAt: new Date(),
+        },
+        {
+          name: 'Dribble',
+          id: 2,
+          logoUrl: 'images/project/dribble.png',
+          url: 'https://dimension.dev/project/dribble',
+          createdAt: new Date(),
+        },
       ]}
     />
   );

@@ -12,7 +12,7 @@ export function Default() {
       <StageHeader
         name="TODO"
         issueCount={2}
-        icon="https://picsum.photos/id/859/50"
+        imageUrl="https://picsum.photos/id/859/50"
         color="black"
       />
     </div>
@@ -25,7 +25,7 @@ export function Blue() {
       <StageHeader
         name="In Progress"
         issueCount={2}
-        icon="https://picsum.photos/id/39/50"
+        imageUrl="https://picsum.photos/id/39/50"
         color="blue"
       />
     </div>
@@ -38,7 +38,7 @@ export function Green() {
       <StageHeader
         name="Done"
         issueCount={2}
-        icon="https://picsum.photos/id/888/50"
+        imageUrl="https://picsum.photos/id/888/50"
         color="green"
       />
     </div>
