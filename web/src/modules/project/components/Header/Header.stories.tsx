@@ -7,5 +7,13 @@ export default {
 };
 
 export function Default() {
-  return <Header />;
+  return (
+    <Header
+      project={{
+        id: 1,
+        name: 'Simple Project',
+        url: 'https://dimension.dev/projects/simple-project',
+      }}
+    />
+  );
 }
