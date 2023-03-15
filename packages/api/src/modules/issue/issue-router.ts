@@ -171,6 +171,14 @@ export const issueRouter = createTRPCRouter({
       };
     }),
 
+  /**
+   * Change issue rank
+   * @param issueId - id of issue whose rank will be changed
+   * @param after - id of issue after which issue will be moved
+   * @param before - id of issue before which issue will be moved. If after is provided, before will be ignored
+   * @param newStageId - if there is no issues in the stage, provide newStageId. If it is provided with before or after - it will checked if it matches with stageId of before or after
+   *
+   */
   changeRank: publicProcedure
     .input(
       z.object({
@@ -216,15 +224,19 @@ export const issueRouter = createTRPCRouter({
       let newRank = '';
 
       const firstIssue = await prisma.issue.findFirst({
-        where: { id: firstIssueId, stageId: newStageId }, // firstIssue should be in the newStage
-        select: { id: true, rank: true },
+        where: { id: firstIssueId, projectId: issue.projectId },
+        select: { id: true, rank: true, stageId: true },
       });
-      if (!firstIssue) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!firstIssue) throw new TRPCError({ code: 'BAD_REQUEST' });
+      // if newStageId is provided, check if it is the same as firstIssue's stageId
+      if (newStageId && firstIssue.stageId !== newStageId)
+        throw new TRPCError({ code: 'BAD_REQUEST' });
 
       const secondIssue = await prisma.issue.findFirst({
         where: { projectId: issue.projectId }, // secondIssue should be in the same project
         select: { id: true, rank: true },
-        cursor: { rank: firstIssue.rank },
+        cursor: { rank_projectId: { rank: firstIssue.rank, projectId: issue.projectId } },
         orderBy: { rank: after ? 'asc' : 'desc' }, // asc for after and desc for before
         skip: 1,
       });
@@ -240,7 +252,7 @@ export const issueRouter = createTRPCRouter({
       }
 
       const result = await prisma.issue.update({
-        data: { rank: newRank, stageId: newStageId },
+        data: { rank: newRank, stageId: firstIssue.stageId },
         where: { id: issueId },
       });
 

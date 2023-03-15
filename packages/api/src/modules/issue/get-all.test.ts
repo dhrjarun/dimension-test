@@ -8,14 +8,14 @@ import {
 import { issueRouter } from './issue-router';
 
 const caller = issueRouter.createCaller({ prisma, session: null });
-describe('api/projectRouter/', async () => {
+describe('api/projectRouter/getAllBy', async () => {
   const project = projectData[0];
   const stage = stageData[0];
 
   it('should return correct counts in getAllByProjectId', async () => {
-    const result = await caller.getAllByProjectId({ projectId: project.id });
+    const issues = await caller.getAllByProjectId({ projectId: project.id });
 
-    result.forEach((issue) => {
+    issues.forEach((issue) => {
       const taskCount = issueDataCountsMap[`id-${issue.id}`]?.taskCount;
       const taskCompletedCount = issueDataCountsMap[`id-${issue.id}`]?.taskCompletedCount;
       const commentCount = issueDataCountsMap[`id-${issue.id}`]?.commentCount;
