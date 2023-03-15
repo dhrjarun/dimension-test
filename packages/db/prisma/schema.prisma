@@ -41,15 +41,17 @@ model Stage {
   imageUrl  String
   color     String
   info      String?
-  rank      String @unique
+  rank      String
   issues    Issue[]
   project   Project @relation(fields: [projectId], references: [id])
   projectId Int
+
+  @@unique([rank, projectId])
 }
 
 model Issue {
   id            Int @id @default(autoincrement())
-  number        Int @unique
+  number        Int
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now()) @updatedAt
   author        User @relation(fields: [authorId], references: [id])
@@ -66,7 +68,11 @@ model Issue {
   stageId       Int
   thumbnail     String?
   thumbnailType ThumbnailType?
-  rank          String @unique
+  rank          String
+
+  @@unique([rank, projectId])
+  @@unique([number, projectId])
+
 }
 
 model IssueParticipants {
